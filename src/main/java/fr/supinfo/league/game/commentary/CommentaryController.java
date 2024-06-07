@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/games/{id]/commentary")
+@RequestMapping("/games/{id]/commentaries")
 @RestController
 public class CommentaryController {
     private CommentaryService service;

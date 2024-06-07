@@ -38,7 +38,7 @@ public class GameController {
 
     @RolesAllowed({"ROLE_JOURNALIST", "ROLE_ADMIN", "ROLE_LEAGUE_MEMBER"})
     @PutMapping("/{id}")
-    public @ResponseBody ResponseEntity<GameDto> startGame(@PathVariable UUID id, @RequestBody GameDto gameDto, @AuthenticationPrincipal Authentication authentication) {
+    public @ResponseBody ResponseEntity<GameDto> update(@PathVariable UUID id, @RequestBody GameDto gameDto, @AuthenticationPrincipal Authentication authentication) {
         if(Objects.isNull(gameDto.id())) {
             return ResponseEntity.badRequest().build();
         }
