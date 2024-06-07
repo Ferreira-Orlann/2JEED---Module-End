@@ -1,4 +1,4 @@
-package fr.supinfo.league.game.event;
+package fr.supinfo.league.game.postpone;
 
 import fr.supinfo.league.game.GameEntity;
 import fr.supinfo.league.game.GameRepository;
@@ -30,7 +30,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class EventControllerTest {
+public class PostponeControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -51,7 +51,7 @@ public class EventControllerTest {
 
     @WithMockUser(roles = {"ADMIN"})
     @Test
-    public void whenCreateEventWithAdmin() throws Exception {
+    public void whenCreatePostponeWithAdmin() throws Exception {
         // Given
         MatchDayEntity matchDay = new MatchDayEntity();
         matchDay.setId(UUID.fromString("ac05477e-60e0-4c07-9455-6929c1b4c169"));
@@ -67,23 +67,23 @@ public class EventControllerTest {
         game.setId(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"));
         this.gameRepository.save(game);
 
-        Path input = Path.of("src", "test", "resources", "inputs", "event-creation.json");
+        Path input = Path.of("src", "test", "resources", "inputs", "postpone-creation.json");
         String body = Files.readString(input);
 
         // When
-        ResultActions resultActions = this.mockMvc.perform(MockMvcRequestBuilders.post("/games/" + "3fa85f64-5717-4562-b3fc-2c963f66afa6" + "/events").content(body)
+        ResultActions resultActions = this.mockMvc.perform(MockMvcRequestBuilders.post("/games/" + "3fa85f64-5717-4562-b3fc-2c963f66afa6" + "/postpones").content(body)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
         // Then
-        String expected = Files.readString(Path.of("src", "test", "resources", "expectations", "created-event.json"));
+        String expected = Files.readString(Path.of("src", "test", "resources", "expectations", "created-postpone.json"));
         resultActions.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(expected));
     }
 
-    @WithMockUser(roles = {"JOURNALIST"})
+    @WithMockUser(roles = {"MEMBER_LEAGUE"})
     @Test
-    public void whenCreateEventWithJournalist() throws Exception {
+    public void whenCreatePostponeWithMember() throws Exception {
         // Given
         MatchDayEntity matchDay = new MatchDayEntity();
         matchDay.setId(UUID.fromString("ac05477e-60e0-4c07-9455-6929c1b4c169"));
@@ -99,22 +99,23 @@ public class EventControllerTest {
         game.setId(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"));
         this.gameRepository.save(game);
 
-        Path input = Path.of("src", "test", "resources", "inputs", "event-creation.json");
+        Path input = Path.of("src", "test", "resources", "inputs", "postpone-creation.json");
         String body = Files.readString(input);
 
         // When
-        ResultActions resultActions = this.mockMvc.perform(MockMvcRequestBuilders.post("/games/" + "3fa85f64-5717-4562-b3fc-2c963f66afa6" + "/events").content(body)
+        ResultActions resultActions = this.mockMvc.perform(MockMvcRequestBuilders.post("/games/" + "3fa85f64-5717-4562-b3fc-2c963f66afa6" + "/postpones").content(body)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
         // Then
-        String expected = Files.readString(Path.of("src", "test", "resources", "expectations", "created-event.json"));
+        String expected = Files.readString(Path.of("src", "test", "resources", "expectations", "created-postpone.json"));
         resultActions.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(expected));
     }
 
+    @WithMockUser
     @Test
-    public void whenCreateEventWithUser() throws Exception {
+    public void whenCreatePostponeWithUser() throws Exception {
         // Given
         MatchDayEntity matchDay = new MatchDayEntity();
         matchDay.setId(UUID.fromString("ac05477e-60e0-4c07-9455-6929c1b4c169"));
@@ -130,18 +131,19 @@ public class EventControllerTest {
         game.setId(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"));
         this.gameRepository.save(game);
 
-        Path input = Path.of("src", "test", "resources", "inputs", "event-creation.json");
+        Path input = Path.of("src", "test", "resources", "inputs", "postpone-creation.json");
         String body = Files.readString(input);
 
         // When
-        ResultActions resultActions = this.mockMvc.perform(MockMvcRequestBuilders.post("/games/" + "3fa85f64-5717-4562-b3fc-2c963f66afa6" + "/events").content(body)
+        ResultActions resultActions = this.mockMvc.perform(MockMvcRequestBuilders.post("/games/" + "3fa85f64-5717-4562-b3fc-2c963f66afa6" + "/postpones").content(body)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
         // Then
-        String expected = Files.readString(Path.of("src", "test", "resources", "expectations", "created-event.json"));
+        String expected = Files.readString(Path.of("src", "test", "resources", "expectations", "created-postpone.json"));
         resultActions.andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
 
 }
+

@@ -36,7 +36,7 @@ public class GameController {
         return this.gameServices.createGame(game);
     }
 
-    @RolesAllowed({"JOURNALIST", "ADMIN", "LEAGUE_MEMBER"})
+    @RolesAllowed({"JOURNALIST", "ADMIN", "MEMBER_LEAGUE"})
     @PutMapping("/{id}")
     public @ResponseBody ResponseEntity<GameDto> update(@PathVariable UUID id, @RequestBody GameDto gameDto, @AuthenticationPrincipal Authentication authentication) {
         if(Objects.isNull(gameDto.id())) {
@@ -47,7 +47,7 @@ public class GameController {
             return ResponseEntity.badRequest().build();
         }
         GameDto savedGameDto = optSavedGameDto.get();
-        if(gameDto.suspended() != savedGameDto.suspended() && this.securityUtils.hasRole(authentication, "LEAGUE_MEMBER")) {
+        if(gameDto.suspended() != savedGameDto.suspended() && this.securityUtils.hasRole(authentication, "MEMBER_LEAGUE")) {
             this.gameServices.updateSuspended(gameDto, gameDto.suspended());
         }
         if (this.securityUtils.hasRole(authentication, "JOURNALIST")) {
