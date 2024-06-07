@@ -1,8 +1,5 @@
 package fr.supinfo.league.game.event;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalTime;

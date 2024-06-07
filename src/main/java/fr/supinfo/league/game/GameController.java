@@ -30,13 +30,13 @@ public class GameController {
     }
 
     // configure security roles using annotations https://www.baeldung.com/spring-security-method-security
-    @RolesAllowed({"ROLE_ADMIN"})
+    @RolesAllowed({"ADMIN"})
     @PostMapping
     public GameDto createGame(@RequestBody GameDto game) {
         return this.gameServices.createGame(game);
     }
 
-    @RolesAllowed({"ROLE_JOURNALIST", "ROLE_ADMIN", "ROLE_LEAGUE_MEMBER"})
+    @RolesAllowed({"JOURNALIST", "ADMIN", "LEAGUE_MEMBER"})
     @PutMapping("/{id}")
     public @ResponseBody ResponseEntity<GameDto> update(@PathVariable UUID id, @RequestBody GameDto gameDto, @AuthenticationPrincipal Authentication authentication) {
         if(Objects.isNull(gameDto.id())) {
@@ -47,10 +47,10 @@ public class GameController {
             return ResponseEntity.badRequest().build();
         }
         GameDto savedGameDto = optSavedGameDto.get();
-        if(gameDto.suspended() != savedGameDto.suspended() && this.securityUtils.hasRole(authentication, "ROLE_LEAGUE_MEMBER")) {
+        if(gameDto.suspended() != savedGameDto.suspended() && this.securityUtils.hasRole(authentication, "LEAGUE_MEMBER")) {
             this.gameServices.updateSuspended(gameDto, gameDto.suspended());
         }
-        if (this.securityUtils.hasRole(authentication, "ROLE_JOURNALIST")) {
+        if (this.securityUtils.hasRole(authentication, "JOURNALIST")) {
             Optional<GameDto> optUpdatedGameDto = this.gameServices.updateTimes(gameDto, gameDto.startTime(), gameDto.endTime());
             return optUpdatedGameDto.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
         }

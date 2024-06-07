@@ -1,0 +1,11 @@
+{
+  "gameId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "time": {
+    "hour": 0,
+    "minute": 0,
+    "second": 0,
+    "nano": 0
+  },
+  "playerName": "string",
+  "eventType": "BUT"
+}

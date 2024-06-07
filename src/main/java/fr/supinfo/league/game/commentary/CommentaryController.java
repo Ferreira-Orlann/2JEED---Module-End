@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/games/{id]/commentaries")
+@RequestMapping("/games/{id}/commentaries")
 @RestController
 public class CommentaryController {
     private CommentaryService service;
 
-    @GetMapping
+    @GetMapping(params = "id")
     public @ResponseBody ResponseEntity<CommentaryDto> getCommentaries(@RequestParam(name = "id", required = true) UUID id) {
         return this.service.getCommentary(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }
@@ -23,7 +23,7 @@ public class CommentaryController {
         return ResponseEntity.of(Optional.ofNullable(this.service.getCommentaries()));
     }
 
-    @RolesAllowed({"ROLE_JOURNALIST"})
+    @RolesAllowed({"JOURNALIST"})
     @PostMapping
     public @ResponseBody ResponseEntity<CommentaryDto> createCommentary(@RequestBody CommentaryDto dto) {
         return ResponseEntity.ok(this.service.createAndSaveCommentary(dto));

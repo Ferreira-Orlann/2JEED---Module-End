@@ -1,7 +1,5 @@
 package fr.supinfo.league.game.event;
 
-import fr.supinfo.league.game.postpone.PostponeDto;
-import fr.supinfo.league.game.postpone.PostponeService;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +20,9 @@ public class EventController {
     }
 
     // configure security roles using annotations https://www.baeldung.com/spring-security-method-security
-    @RolesAllowed({"ROLE_LEAGUE_MEMBER", "ROLE_ADMIN"})
+    @RolesAllowed({"LEAGUE_MEMBER", "ADMIN"})
     @PostMapping
-    public @ResponseBody ResponseEntity<EventDto> createPostpone(@PathVariable(name = "id") UUID id, @RequestBody EventDto dto) {
+    public @ResponseBody ResponseEntity<EventDto> createEvent(@PathVariable UUID id, @RequestBody EventDto dto) {
         return ResponseEntity.ok(this.service.createEvent(id, dto));
     }
 }

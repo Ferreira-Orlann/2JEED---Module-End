@@ -23,7 +23,7 @@ public class PostponeController {
     }
 
     // configure security roles using annotations https://www.baeldung.com/spring-security-method-security
-    @RolesAllowed({"ROLE_LEAGUE_MEMBER", "ROLE_ADMIN"})
+    @RolesAllowed({"LEAGUE_MEMBER", "ADMIN"})
     @PostMapping
     public @ResponseBody ResponseEntity<PostponeDto> createPostpone(@PathVariable(name = "id") UUID id, @RequestBody PostponeDto dto) {
         return ResponseEntity.ok(this.service.createPostpone(id, dto));
