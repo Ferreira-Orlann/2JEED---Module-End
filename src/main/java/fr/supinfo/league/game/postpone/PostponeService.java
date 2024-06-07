@@ -1,6 +1,5 @@
 package fr.supinfo.league.game.postpone;
 
-import fr.supinfo.league.game.GameServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,6 @@ import java.util.UUID;
 public class PostponeService {
     private final PostponeRepository repository;
     private final PostponeMapper mapper;
-    private final GameServices gameServices;
 
     public List<PostponeDto> getPostpones(UUID gameId) {
         return this.mapper.entityToDto(this.repository.findByGameId(gameId));

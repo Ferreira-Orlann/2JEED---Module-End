@@ -1,6 +1,5 @@
 package fr.supinfo.league.game.event;
 
-import fr.supinfo.league.game.postpone.PostponeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

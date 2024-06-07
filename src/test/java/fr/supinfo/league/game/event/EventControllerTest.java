@@ -178,7 +178,6 @@ public class EventControllerTest {
 
         // Then
         String expected = Files.readString(Path.of("src", "test", "resources", "expectations", "retreived-event.json"));
-        System.out.println(expected);
         resultActions.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(expected));
     }
