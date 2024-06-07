@@ -1,5 +1,6 @@
 package fr.supinfo.league.game.commentary;
 
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class CommentaryController {
         return ResponseEntity.of(Optional.ofNullable(this.service.getCommentaries()));
     }
 
+    @RolesAllowed({"JOURNALIST"})
     @PostMapping
     public @ResponseBody ResponseEntity<CommentaryDto> createCommentary(@RequestBody CommentaryDto dto) {
         return ResponseEntity.ok(this.service.createAndSaveCommentary(dto));
