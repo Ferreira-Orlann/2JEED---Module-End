@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -40,5 +41,27 @@ public class GameServices {
         GameEntity gameEntity = this.gameMapper.dtoToEntity(game);
         GameEntity saved = this.gameRepository.save(gameEntity);
         return this.gameMapper.entityToDto(saved);
+    }
+
+    public Optional<GameDto> updateGame(GameDto gameDto) {
+        if (this.gameRepository.existsById(gameDto.id())) {
+            return Optional.empty();
+        }
+        return Optional.of(this.gameMapper.entityToDto(this.gameRepository.save(this.gameMapper.dtoToEntity(gameDto))));
+    }
+
+    public Optional<GameDto> updateTimes(GameDto gameDto, LocalTime startTime, LocalTime endTime) {
+        Optional<GameEntity> optGame = this.gameRepository.findById(gameDto.id());
+        if (optGame.isEmpty()) {
+            return Optional.empty();
+        }
+        GameEntity gameEnt = optGame.get();
+        if (Objects.nonNull(startTime)) {
+            gameEnt.setStartTime(startTime);
+        }
+        if (Objects.nonNull(endTime)) {
+            gameEnt.setEndTime(endTime);
+        }
+        return Optional.of(this.gameMapper.entityToDto(this.gameRepository.save(gameEnt)));
     }
 }

@@ -1,11 +1,18 @@
 package fr.supinfo.league.game;
 
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RequestMapping("/games")
@@ -24,5 +31,15 @@ public class GameController {
     @PostMapping
     public GameDto createGame(@RequestBody GameDto game) {
         return this.gameServices.createGame(game);
+    }
+
+    @RolesAllowed({"JOURNALIST", "ADMIN"})
+    @PostMapping
+    public @ResponseBody ResponseEntity<GameDto> startGame(GameDto gameDto) {
+        if(Objects.isNull(gameDto.id())) {
+            return ResponseEntity.badRequest().build();
+        }
+        Optional<GameDto> optUpdatedGameDto = this.gameServices.updateTimes(gameDto, gameDto.startTime(), gameDto.endTime());
+        return optUpdatedGameDto.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 }
