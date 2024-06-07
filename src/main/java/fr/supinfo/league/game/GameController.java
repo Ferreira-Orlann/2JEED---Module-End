@@ -2,6 +2,7 @@ package fr.supinfo.league.game;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +35,8 @@ public class GameController {
     }
 
     @RolesAllowed({"JOURNALIST", "ADMIN"})
-    @PostMapping
-    public @ResponseBody ResponseEntity<GameDto> startGame(GameDto gameDto) {
+    @PostMapping("/{id}")
+    public @ResponseBody ResponseEntity<GameDto> startGame(@PathVariable UUID id, @RequestBody GameDto gameDto) {
         if(Objects.isNull(gameDto.id())) {
             return ResponseEntity.badRequest().build();
         }
