@@ -37,6 +37,8 @@ public class EventControllerTest {
     private GameRepository gameRepository;
     @Autowired
     private MatchDayRepository matchDayRepository;
+    @Autowired
+    private EventRepository eventRepository;
 
     @Autowired
     private WebApplicationContext context;
@@ -143,5 +145,42 @@ public class EventControllerTest {
         resultActions.andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
+
+    @WithMockUser
+    @Test
+    public void whenRetreived() throws Exception {
+        // Given
+        MatchDayEntity matchDay = new MatchDayEntity();
+        matchDay.setId(UUID.fromString("ac05477e-60e0-4c07-9455-6929c1b4c169"));
+        matchDay.setDate(LocalDate.now().plusDays(5));
+        matchDay = this.matchDayRepository.save(matchDay);
+
+        GameEntity game = new GameEntity();
+        game.setDescription("Good game");
+        game.setMatchDayId(matchDay.getId());
+        game.setHomeTeamId(UUID.fromString("22f8841b-c1c3-49e2-9e08-8884ca1ff9c0"));
+        game.setVisitorTeamId(UUID.fromString("5b6bbd96-3b0c-4b34-aeaf-e001d0e1f0da"));
+        game.setStartTime(LocalTime.of(15, 15, 15));
+        game.setId(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"));
+        game = this.gameRepository.save(game);
+
+        EventEntity event = new EventEntity();
+        event.setGameId(game.getId());
+        event.setTime(LocalTime.of(10,10,10,10));
+        event.setPlayerName("Justin Bridoux");
+        event.setEventType(EventType.BUT);
+        event = this.eventRepository.save(event);
+
+        // When
+        ResultActions resultActions = this.mockMvc.perform(MockMvcRequestBuilders.get("/games/" + "3fa85f64-5717-4562-b3fc-2c963f66afa6" + "/events")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        // Then
+        String expected = Files.readString(Path.of("src", "test", "resources", "expectations", "retreived-event.json"));
+        System.out.println(expected);
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(expected));
+    }
 
 }

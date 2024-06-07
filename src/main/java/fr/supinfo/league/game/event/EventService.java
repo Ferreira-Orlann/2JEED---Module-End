@@ -14,7 +14,7 @@ public class EventService {
     private final EventMapper mapper;
     private final EventRepository repository;
 
-    public List<EventDto> getEvent(UUID gameId) {
+    public List<EventDto> getEvents(UUID gameId) {
         return this.mapper.entityToDto(this.repository.findByGameId(gameId));
     }
 

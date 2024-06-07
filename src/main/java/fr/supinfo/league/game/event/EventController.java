@@ -16,7 +16,7 @@ public class EventController {
 
     @GetMapping
     public @ResponseBody ResponseEntity<List<EventDto>> getEvents(@PathVariable(name = "id") UUID id) {
-        return ResponseEntity.ok(this.service.getEvent(id));
+        return ResponseEntity.ok(this.service.getEvents(id));
     }
 
     // configure security roles using annotations https://www.baeldung.com/spring-security-method-security

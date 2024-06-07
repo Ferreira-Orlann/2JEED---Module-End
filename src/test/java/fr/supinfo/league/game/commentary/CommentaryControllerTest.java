@@ -2,6 +2,9 @@ package fr.supinfo.league.game.commentary;
 
 import fr.supinfo.league.game.GameEntity;
 import fr.supinfo.league.game.GameRepository;
+import fr.supinfo.league.game.event.EventEntity;
+import fr.supinfo.league.game.event.EventRepository;
+import fr.supinfo.league.game.event.EventType;
 import fr.supinfo.league.season.matchday.MatchDayEntity;
 import fr.supinfo.league.season.matchday.MatchDayRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -143,6 +146,5 @@ public class CommentaryControllerTest {
         String expected = Files.readString(Path.of("src", "test", "resources", "expectations", "created-commentary.json"));
         resultActions.andExpect(MockMvcResultMatchers.status().isForbidden());
     }
-
 
 }

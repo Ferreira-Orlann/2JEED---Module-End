@@ -1,7 +1,5 @@
 package fr.supinfo.league.game.postpone;
 
-import fr.supinfo.league.game.GameDto;
-import fr.supinfo.league.game.GameServices;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
