@@ -39,6 +39,12 @@ public class WebSecurityConfigurer {
                 .roles("USER", "JOURNALIST")
                 .build();
 
+        UserDetails member_league = User.withUsername("member_league")
+                .password(passwordEncoder.encode("member_league"))
+                .roles("USER", "MEMBER_LEAGUE")
+                .build();
+
+
         return new InMemoryUserDetailsManager(user, admin);
     }
 
