@@ -22,4 +22,5 @@ public class GameEntity {
     private UUID homeTeamId;
     private UUID visitorTeamId;
     private LocalTime endTime;
+    private boolean suspended;
 }

@@ -26,6 +26,6 @@ public class PostponeController {
     @RolesAllowed({"ROLE_LEAGUE_MEMBER", "ROLE_ADMIN"})
     @PostMapping
     public @ResponseBody ResponseEntity<PostponeDto> createPostpone(@PathVariable(name = "id") UUID id, @RequestBody PostponeDto dto) {
-        return null;
+        return ResponseEntity.ok(this.service.createPostpone(id, dto));
     }
 }

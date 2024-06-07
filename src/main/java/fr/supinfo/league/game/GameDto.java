@@ -8,5 +8,6 @@ import java.util.UUID;
 public record GameDto(UUID id, String description, @NotNull UUID matchDayId, @NotNull UUID homeTeamId,
                       @NotNull UUID visitorTeamId,
                       @NotNull LocalTime startTime,
-                      @NotNull LocalTime endTime) {
+                      @NotNull LocalTime endTime,
+                      @NotNull boolean suspended) {
 }

@@ -14,6 +14,10 @@ public class MatchDayServices {
     private final MatchDayRepository matchDayRepository;
     private final MatchDayMapper matchDayMapper;
 
+    public Optional<MatchDayDto> getMatchById(UUID id) {
+        return this.matchDayRepository.findById(id).map(this.matchDayMapper::entityToDto);
+    }
+
     public List<MatchDayDto> getMatchDayList(UUID seasonUuid) {
         List<MatchDayEntity> matchDayEntityList = this.matchDayRepository.findBySeasonId(seasonUuid);
         return this.matchDayMapper.entityToDto(matchDayEntityList);

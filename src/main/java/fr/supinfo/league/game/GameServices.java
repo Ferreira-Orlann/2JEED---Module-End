@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -72,5 +73,24 @@ public class GameServices {
             gameEnt.setEndTime(endTime);
         }
         return Optional.of(this.gameMapper.entityToDto(this.gameRepository.save(gameEnt)));
+    }
+
+    public GameDto updateSuspended(GameDto gameDto, boolean suspended) {
+        Optional<MatchDayDto> optMatchDayDto = this.matchDayServices.getMatchById(gameDto.matchDayId());
+        if(optMatchDayDto.isEmpty()) {
+            return  gameDto;
+        }
+        MatchDayDto matchDayDto = optMatchDayDto.get();
+        LocalDate now = LocalDate.now();
+        if (now.isBefore(matchDayDto.date()) || now.isBefore(ChronoLocalDate.from(gameDto.startTime()))) {
+            return gameDto;
+        }
+        Optional<GameEntity> optGame = this.gameRepository.findById(gameDto.id());
+        if (optGame.isEmpty()) {
+            return gameDto;
+        }
+        GameEntity gameEnt = optGame.get();
+        gameEnt.setSuspended(suspended);
+        return this.gameMapper.entityToDto(this.gameRepository.save(gameEnt));
     }
 }
