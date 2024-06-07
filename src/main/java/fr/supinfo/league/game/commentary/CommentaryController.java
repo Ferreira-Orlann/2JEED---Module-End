@@ -23,7 +23,7 @@ public class CommentaryController {
         return ResponseEntity.of(Optional.ofNullable(this.service.getCommentaries()));
     }
 
-    @RolesAllowed({"JOURNALIST"})
+    @RolesAllowed({"ROLE_JOURNALIST"})
     @PostMapping
     public @ResponseBody ResponseEntity<CommentaryDto> createCommentary(@RequestBody CommentaryDto dto) {
         return ResponseEntity.ok(this.service.createAndSaveCommentary(dto));

@@ -1,14 +1,10 @@
 package fr.supinfo.league.game;
 
 import jakarta.annotation.security.RolesAllowed;
-import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -28,14 +24,14 @@ public class GameController {
     }
 
     // configure security roles using annotations https://www.baeldung.com/spring-security-method-security
-    @RolesAllowed({"ADMIN"})
+    @RolesAllowed({"ROLE_ADMIN"})
     @PostMapping
     public GameDto createGame(@RequestBody GameDto game) {
         return this.gameServices.createGame(game);
     }
 
-    @RolesAllowed({"JOURNALIST", "ADMIN"})
-    @PostMapping("/{id}")
+    @RolesAllowed({"ROLE_JOURNALIST", "ROLE_ADMIN"})
+    @PutMapping("/{id}/time")
     public @ResponseBody ResponseEntity<GameDto> startGame(@PathVariable UUID id, @RequestBody GameDto gameDto) {
         if(Objects.isNull(gameDto.id())) {
             return ResponseEntity.badRequest().build();

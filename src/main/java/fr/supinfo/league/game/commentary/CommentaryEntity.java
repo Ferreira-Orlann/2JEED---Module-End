@@ -16,8 +16,7 @@ public class CommentaryEntity {
     @Id
     @GeneratedValue
     private UUID id;
-    @ManyToOne()
-    private GameEntity game;
+    private UUID gameId;
     @Column(nullable = false)
     private LocalTime time;
     @Column(nullable = false)

@@ -9,5 +9,5 @@ import jakarta.persistence.ManyToOne;
 import java.time.LocalTime;
 import java.util.UUID;
 
-public record CommentaryDto(UUID id, UUID game, LocalTime time, String message, String journalistName) {
+public record CommentaryDto(UUID id, UUID gameId, LocalTime time, String message, String journalistName) {
 }

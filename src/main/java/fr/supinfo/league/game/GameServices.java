@@ -1,5 +1,6 @@
 package fr.supinfo.league.game;
 
+import fr.supinfo.league.season.matchday.MatchDayDto;
 import fr.supinfo.league.season.matchday.MatchDayServices;
 import fr.supinfo.league.team.TeamServices;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,14 @@ public class GameServices {
 
     private final MatchDayServices matchDayServices;
     private final TeamServices teamServices;
+
+    public Optional<GameDto> getGame(UUID id) {
+        return  this.gameRepository.findById(id).map(this.gameMapper::entityToDto);
+    }
+
+    public boolean gameExitById(UUID id) {
+        return this.gameRepository.existsById(id);
+    }
 
     public List<GameDto> getGames(LocalDate date) {
         List<GameDto> result;
