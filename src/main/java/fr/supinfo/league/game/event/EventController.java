@@ -22,7 +22,7 @@ public class EventController {
     // configure security roles using annotations https://www.baeldung.com/spring-security-method-security
     @RolesAllowed({"JOURNALIST", "ADMIN"})
     @PostMapping
-    public @ResponseBody ResponseEntity<EventDto> createEvent(@PathVariable UUID id, @RequestBody EventDto dto) {
+    public @ResponseBody ResponseEntity<EventDto> createEvent(@PathVariable(name = "id") UUID id, @RequestBody EventDto dto) {
         return ResponseEntity.ok(this.service.createEvent(id, dto));
     }
 }

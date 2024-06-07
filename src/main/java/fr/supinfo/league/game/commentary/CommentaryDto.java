@@ -1,11 +1,5 @@
 package fr.supinfo.league.game.commentary;
 
-import fr.supinfo.league.game.GameEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-
 import java.time.LocalTime;
 import java.util.UUID;
 
