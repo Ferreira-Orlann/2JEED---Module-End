@@ -37,6 +37,8 @@ public class PostponeControllerTest {
     private GameRepository gameRepository;
     @Autowired
     private MatchDayRepository matchDayRepository;
+    @Autowired
+    private PostponeRepository postponeRepository;
 
     @Autowired
     private WebApplicationContext context;
@@ -144,6 +146,47 @@ public class PostponeControllerTest {
         resultActions.andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
+    @WithMockUser
+    @Test
+    public void whenRetreiveAllPostpone() throws Exception {
+        // Given
+        MatchDayEntity matchDay = new MatchDayEntity();
+        matchDay.setId(UUID.fromString("ac05477e-60e0-4c07-9455-6929c1b4c169"));
+        matchDay.setDate(LocalDate.now().plusDays(5));
+        matchDay = this.matchDayRepository.save(matchDay);
 
+        MatchDayEntity matchDayTwo = new MatchDayEntity();
+        matchDayTwo.setId(UUID.fromString("f54e1435-bb3a-4104-a5c6-59ccfdf46eb1"));
+        matchDayTwo.setDate(LocalDate.now().plusDays(5));
+        matchDayTwo = this.matchDayRepository.save(matchDayTwo);
+
+        GameEntity game = new GameEntity();
+        game.setDescription("Good game");
+        game.setMatchDayId(matchDay.getId());
+        game.setHomeTeamId(UUID.fromString("22f8841b-c1c3-49e2-9e08-8884ca1ff9c0"));
+        game.setVisitorTeamId(UUID.fromString("5b6bbd96-3b0c-4b34-aeaf-e001d0e1f0da"));
+        game.setStartTime(LocalTime.of(15, 15, 15));
+        game.setId(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"));
+        this.gameRepository.save(game);
+
+        PostponeEntity postpone = new PostponeEntity();
+        postpone.setId(UUID.fromString("26c4e0e6-3693-47e7-be97-98af2b619d18"));
+        postpone.setGameId(game.getId());
+        postpone.setReason("Test Reason");
+        postpone.setOldMatchDayId(matchDay.getId());
+        postpone.setNewMatchDayId(matchDayTwo.getId());
+        this.postponeRepository.save(postpone);
+
+        // When
+        ResultActions resultActions = this.mockMvc.perform(MockMvcRequestBuilders.get("/games/" + "3fa85f64-5717-4562-b3fc-2c963f66afa6" + "/postpones")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        // Then
+        String expected = Files.readString(Path.of("src", "test", "resources", "expectations", "retreived-postpone.json"));
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(expected));
+
+    }
 }
 
