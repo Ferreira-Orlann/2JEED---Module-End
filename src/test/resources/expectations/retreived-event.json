@@ -1,12 +1,8 @@
 [
   {
+    "id": "26c4e0e6-3693-47e7-be97-98af2b619d18",
     "gameId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "time": {
-      "hour": 10,
-      "minute": 10,
-      "second": 10,
-      "nano": 10
-    },
+    "time": "10:30:00",
     "playerName": "Justin Bridoux",
     "eventType": "BUT"
   }

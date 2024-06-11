@@ -1,5 +1,6 @@
 package fr.supinfo.league.game.commentary;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -7,10 +8,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
 public class CommentaryService {
-    private CommentaryMapper mapper;
-    private CommentaryRepository repository;
+    private final CommentaryMapper mapper;
+    private final CommentaryRepository repository;
 
     public List<CommentaryDto> getCommentaries() {
         return this.mapper.entityToDto(this.repository.findAll());

@@ -115,6 +115,7 @@ public class EventControllerTest {
                 .andExpect(MockMvcResultMatchers.content().json(expected));
     }
 
+    @WithMockUser
     @Test
     public void whenCreateEventWithUser() throws Exception {
         // Given
@@ -166,9 +167,10 @@ public class EventControllerTest {
 
         EventEntity event = new EventEntity();
         event.setGameId(game.getId());
-        event.setTime(LocalTime.of(10,10,10,10));
+        event.setTime(LocalTime.of(10,30,0));
         event.setPlayerName("Justin Bridoux");
         event.setEventType(EventType.BUT);
+        event.setId(UUID.fromString("26c4e0e6-3693-47e7-be97-98af2b619d18"));
         event = this.eventRepository.save(event);
 
         // When

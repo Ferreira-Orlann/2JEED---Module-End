@@ -11,7 +11,7 @@ import java.util.*;
 @RequestMapping("/games/{id}/commentaries")
 @RestController
 public class CommentaryController {
-    private CommentaryService service;
+    private final CommentaryService service;
 
     @GetMapping(params = "id")
     public @ResponseBody ResponseEntity<CommentaryDto> getCommentaries(@RequestParam(name = "id", required = true) UUID id) {
@@ -23,7 +23,7 @@ public class CommentaryController {
         return ResponseEntity.of(Optional.ofNullable(this.service.getCommentaries()));
     }
 
-    @RolesAllowed({"JOURNALIST"})
+    @RolesAllowed({"JOURNALIST", "ADMIN"})
     @PostMapping
     public @ResponseBody ResponseEntity<CommentaryDto> createCommentary(@RequestBody CommentaryDto dto) {
         return ResponseEntity.ok(this.service.createAndSaveCommentary(dto));
